@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            RockPaperScissor
+        </title>
+
+        <!--<link rel="stylesheet" href="/csspath"> -->
+
+        <style>
+
+            h1{
+                color: aliceblue;
+                padding-left: 80px;
+                padding-bottom: 20px;
+                font-weight: bolder;
+                font-size: 300%;
+            }
+
+            body{
+                font-family: Arial;
+                background-color: rgb(38, 58, 63);
+                }
+
+            p{
+                color: white;
+                padding-bottom: 20px;
+                padding-left: 80px;
+            }
+
+            .background-img1{
+                background-image: url('/Background_Images/background_image1.jpg');
+            }
+
+            .background-img2{
+                background-image: url('/Background_Images/background_image2.jpg');
+            }
+
+            .background-img3{
+                background-image: url('/Background_Images/background_image3.jpg');
+            }
+
+            .background-img4{
+                background-image: url('/Background_Images/background_image4.jpg');
+            }
+
+            .background-img5{
+                background-image: url('/Background_Images/background_image5.jpg');
+            }
+
+            .background-img6{
+                background-image: url('/Background_Images/background_image6.jpg');
+            }
+
+            .font-you{
+                font-size: 250%;
+                font-weight: bolder;
+                color: whitesmoke;
+            }
+
+            .score-grid-container{
+                color: antiquewhite;
+                border-radius: 25%;
+                font-family: Arial, Helvetica, sans-serif;
+                font: bold;
+                margin-left: 10% ;
+                height: 100px;
+                width: 250px;
+                background-image: url('/Container_Images/stats1.png');
+            }
+
+            .score-grid{
+                display: grid;
+                grid-template-columns: 250px;
+                align-content: center;
+                place-items: center;
+            }
+
+            .comp-img{
+                height: 80px;
+                width: 80px;
+                margin-left: 20px;
+                border: 3px solid black;
+            }
+
+            .you-img{
+                height: 80px;
+                width: 80px;
+                margin-right: 20px;
+                border: 3px solid black;
+            }
+            
+
+            .comp-pick-img{
+                height: 80px;
+                width: 80px;
+                border-radius: 40px;
+                border: 3px solid white;
+            }
+
+            .you-pick-img{
+                height: 80px;
+                width: 80px;
+                margin-right: 80px;
+                border-radius: 40px;
+                border: 3px solid white;
+            }
+
+            .win-lose-result{
+                color:white;
+                font-size: xx-large;
+                font-weight: bold;
+                margin-left: 100px;
+            }
+
+            .img-style{
+                height: 150px;
+                width: 150px;
+                border: 3px solid goldenrod;
+                cursor: pointer;
+                border-radius: 100%;
+            }
+
+            .button-color{
+                height: 180px;
+                width: 180px;
+                background-color: transparent;
+                cursor: pointer;
+                border: none;
+                margin-left: 40px;
+                margin-bottom: 20px;
+                }
+
+            .show-reset-results{
+                background-color: black;
+                color: white;
+                font-weight: bold;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                padding-left: 10px;
+                padding-right: 10px;
+                border-radius: 20px;
+                cursor: pointer;
+                margin-left: 40px;
+            }
+
+            .hide-results{
+                background-color: white;
+                color: black;
+            }
+        </style>
+
+    </head>
+    <body class="js-body-element background-img1">
+        <h1>
+            K Pop Demon Hunters Game
+        </h1>
+
+        <button class="button-color js-rock-button">
+            <img src='/RPS_kpop_themes/Rock.jpg' class="img-style">
+        </button>
+
+        <button class="button-color js-paper-button">
+            <img src='/RPS_kpop_themes/Paper.jpg' class='img-style'>
+        </button>
+
+        <button class="button-color js-scissor-button">
+            <img src='/RPS_kpop_themes/Scissor.jpg' class='img-style'>
+        </button>
+        
+        <p class="js-display-result font-you">
+            You<img src="/Avatars/Avatar1.png" class="img-style"></p>
+        <p class="js-result win-lose-result"></p>
+        
+        <br><br>
+        <button class="js-show-results-button show-reset-results">Show Results</button>
+        <button class="js-reset-button show-reset-results">Reset Results</button>
+        <button class="js-rules show-reset-results">Rules</button>
+        <button class="js-avatar-button show-reset-results">Change Avatar</button>
+        <button class="js-changebg-button show-reset-results">Change Background </button>
+        <button class="js-automode show-reset-results" >Auto Play</button>
+        <br>
+        <p class="js-show-results"></p>
+        <div class="js-grid-scores score-grid"></div>
+
+
+        <script>
+
+            const pickChances = ['Rock','Paper','Scissor']
+
+            const bestPlayerScores = {
+                Abhi: 10
+            }
+
+            let intervalId;
+
+            let pastResults = JSON.parse(localStorage.getItem('pastResults')) || {
+                Wins: 0,
+                Loses: 0,
+                Draws: 0
+            }
+
+            document.body.addEventListener('keydown', (event)=>{
+                console.log(event.key)
+                if(event.key==='ArrowLeft'){
+                    gameResult('Rock')
+                }
+                else if(event.key==='ArrowRight'){
+                    gameResult('Scissor')
+                }
+                else{
+                    gameResult('Paper')
+                }
+            })
+
+            document.querySelector('.js-reset-button').addEventListener('click', ()=>{
+                resetResult()
+                document.querySelector('.js-display-result').innerHTML = ''
+                document.querySelector('.js-rules').classList.remove('hide-results')
+                document.querySelector('.js-result').innerHTML = ` New Game🥰`
+            })
+
+            document.querySelector('.js-rock-button').addEventListener('click', ()=>{
+                gameResult('Rock')
+            })
+
+            document.querySelector('.js-paper-button').addEventListener('click', ()=>{
+                gameResult('Paper')
+            })
+
+            document.querySelector('.js-scissor-button').addEventListener('click', ()=>{
+                gameResult('Scissor')
+            })
+
+            document.querySelector('.js-rules').addEventListener('click', ()=>{
+                if(document.querySelector('.js-rules').classList.contains('hide-results')){
+                    document.querySelector('.js-grid-scores').innerHTML = ``
+                    document.querySelector('.js-rules').classList.remove('hide-results')
+                    document.querySelector('.js-grid-scores').classList.remove('score-grid-container')
+                }
+                else{
+                    document.querySelector('.js-grid-scores').innerHTML = `<div>Fans ⚔️ Demon: Demon 🏆</div><div>Hunters ⚔️ Demon: Hunter 🏆</div><div>Hunters ⚔️ Fans: Fans 🏆</div>`
+                    document.querySelector('.js-rules').classList.add('hide-results')
+                    document.querySelector('.js-show-results-button').innerText = 'Show Results'
+                    document.querySelector('.js-show-results-button').classList.remove('hide-results')
+                    document.querySelector('.js-grid-scores').classList.add('score-grid-container')
+                }
+            })
+
+            document.querySelector('.js-show-results-button').addEventListener('click', ()=>{
+                const docButtonObj =  document.querySelector('.js-show-results-button')
+                if (docButtonObj.innerText === 'Show Results'){
+                    showResultsOnPageElement()
+                    docButtonObj.innerText = 'Hide Results'
+                    docButtonObj.classList.add('hide-results')
+                    document.querySelector('.js-rules').classList.remove('hide-results')
+                    document.querySelector('.js-grid-scores').classList.add('score-grid-container')
+                }
+                else{
+                    docButtonObj.innerText = 'Show Results'
+                    document.querySelector('.js-grid-scores').innerHTML = ''
+                    docButtonObj.classList.remove('hide-results')
+                    document.querySelector('.js-grid-scores').classList.remove('score-grid-container')
+                }
+            })
+
+            document.querySelector('.js-avatar-button').addEventListener('click', ()=>{
+                if(avatarTracker===13){
+                    avatarTracker=0
+                }
+                avatarTracker ++
+                document.querySelector('.js-display-result').innerHTML=`Choose your Avatar <img src='/Avatars/Avatar${avatarTracker}.png' class='img-style'></button> `
+            })
+
+            document.querySelector('.js-changebg-button').addEventListener('click', ()=>{
+                if(backgroungImageTracker===6){
+                    backgroungImageTracker=0
+                    console.log('photos repeat')
+                }
+                backgroungImageTracker ++
+                console.log(`background-img${backgroungImageTracker}`)
+                document.querySelector('.js-body-element').classList.add(`background-img${backgroungImageTracker}`)
+            })
+
+            document.querySelector('.js-automode').addEventListener('click', ()=>{
+                if(document.querySelector('.js-automode').classList.contains('hide-results')){
+                    document.querySelector('.js-automode').classList.remove('hide-results')
+                    console.log('Auto-mode Off')
+                    clearInterval(intervalId)
+                }
+                else{
+                    document.querySelector('.js-automode').classList.add('hide-results')
+                    intervalId = setInterval(()=>{
+                        let playerAutoPick = pickChances[Math.floor(Math.random() * pickChances.length)]
+                        console.log(`AutoPlayer Pick: ${playerAutoPick}`)
+                        gameResult(playerAutoPick)
+                        if(document.querySelector('.js-show-results-button').innerHTML === 'Hide Results'){
+                        showResultsOnPageElement()
+                        }
+                    }, 1000)
+                }
+            })
+
+            let avatarTracker = 1;
+            let backgroungImageTracker = 1;
+
+            function showImagesOnPElement(machinePlay, playerPick, result){
+                console.log('Displaying Images...')
+                document.querySelector(".js-display-result").innerHTML = `<img src='/Avatars/Avatar${avatarTracker}.png' class='you-img'><img src='/RPS_kpop_themes/${playerPick}.jpg' class='you-pick-img'>       <img src='/RPS_kpop_themes/${machinePlay}.jpg' class='comp-pick-img'><img src='/computer.png' class='comp-img'>`
+
+                let displayResult = ''
+
+                if(result==='Win'){
+                    displayResult = "You Win! 😁"
+                }
+                else if(result==='Lose'){
+                    displayResult = "You Lose! 😭"
+                }
+                else{
+                    displayResult = "Draw! 😑"
+                }
+
+                console.log(displayResult)
+
+                document.querySelector(".js-result").innerHTML = `${displayResult}`
+                
+            }
+
+
+            function showResultOnPageElement(machinePlay, playerPick, result){
+                console.log('Inside DOM edit')
+                document.querySelector(".js-display-result").innerHTML = `Computer Picks: ${machinePlay}, You Pick: ${playerPick}, Result: ${result}`
+            }
+
+            function showResultsOnPageElement(){
+                console.log('Inside Show results DOM edit')
+                document.querySelector(".js-grid-scores").innerHTML = `<div>Wins: ${pastResults.Wins}</div>
+                <div>Loses: ${pastResults.Loses}</div>
+                <div>Draws: ${pastResults.Draws}</div>`
+            }
+
+            function showResults(){
+                alert(`Wins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`)
+            }
+
+            function resetResult(){
+                localStorage.removeItem('pastResults')
+                pastResults = {
+                    Wins: 0,
+                    Loses: 0,
+                    Draws: 0
+                }
+
+                document.querySelector('.js-show-results-button').innerText = 'Hide Results'
+                document.querySelector('.js-show-results-button').classList.add('hide-results')
+                document.querySelector(".js-grid-scores").innerHTML = `<div>Wins: ${pastResults.Wins}</div>
+                <div>Loses: ${pastResults.Loses}</div>
+                <div>Draws: ${pastResults.Draws}</div>`
+                document.querySelector('.js-grid-scores').classList.add('score-grid-container')
+            }
+
+            function gameResult(playerPick){
+
+                machinePlay = computerPick()
+                let result = ''
+                if (playerPick === 'Rock'){
+                    if(machinePlay === 'Rock'){
+                        result = 'Draw'
+                    }
+                    else if(machinePlay === 'Paper'){
+                        result = 'Lose'
+                    }
+                    else{
+                        result = 'Win'
+                    }
+                }
+                else if(playerPick === 'Paper'){
+                    if(machinePlay === 'Rock'){
+                        result = 'Win'
+                    }
+                    else if(machinePlay === 'Paper'){
+                        result = 'Draw'
+                    }
+                    else{
+                        result = 'Lose'
+                    }
+                }
+                else{
+                    if(machinePlay === 'Rock'){
+                        result = 'Lose'
+                    }
+                    else if(machinePlay === 'Paper'){
+                        result = 'Win'
+                    }
+                    else{
+                        result = 'Draw'
+                    }
+                }
+                
+                if(result==='Win')
+                    pastResults.Wins = pastResults.Wins+1
+                else if(result==='Lose')
+                    pastResults.Loses = pastResults.Loses+1
+                else
+                    pastResults.Draws = pastResults.Draws+1
+
+                localStorage.setItem('pastResults',JSON.stringify(pastResults))
+
+                console.log(`Computer Picks: ${machinePlay}\nYou Pick: ${playerPick}\nResult: ${result}\n\nWins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`)
+
+                showImagesOnPElement(machinePlay, playerPick, result)
+
+                if(document.querySelector('.js-show-results-button').innerHTML === 'Hide Results'){
+                    showResultsOnPageElement()
+                }
+            }
+
+            function computerPick(){
+                const pick = ['Rock','Paper','Scissor']
+                let machinePlay = pick[Math.floor(Math.random() * pick.length)]
+                console.log(`Computer Plays: ${machinePlay}`)
+                return machinePlay
+            }
+        </script>
+    </body>
+</html>
