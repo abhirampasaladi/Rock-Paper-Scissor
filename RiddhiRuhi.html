@@ -29,27 +29,27 @@
             }
 
             .background-img1{
-                background-image: url('/Background_Images/background_image1.jpg');
+                background-image: url('/Rock-Paper-Scissor/Background_Images/background_image1.jpg');
             }
 
             .background-img2{
-                background-image: url('/Background_Images/background_image2.jpg');
+                background-image: url('/Rock-Paper-Scissor/Background_Images/background_image2.jpg');
             }
 
             .background-img3{
-                background-image: url('/Background_Images/background_image3.jpg');
+                background-image: url('/Rock-Paper-Scissor/Background_Images/background_image3.jpg');
             }
 
             .background-img4{
-                background-image: url('/Background_Images/background_image4.jpg');
+                background-image: url('/Rock-Paper-Scissor/Background_Images/background_image4.jpg');
             }
 
             .background-img5{
-                background-image: url('/Background_Images/background_image5.jpg');
+                background-image: url('/Rock-Paper-Scissor/Background_Images/background_image5.jpg');
             }
 
             .background-img6{
-                background-image: url('/Background_Images/background_image6.jpg');
+                background-image: url('/Rock-Paper-Scissor/Background_Images/background_image6.jpg');
             }
 
             .font-you{
@@ -66,7 +66,7 @@
                 margin-left: 10% ;
                 height: 100px;
                 width: 250px;
-                background-image: url('/Container_Images/stats1.png');
+                background-image: url('/Rock-Paper-Scissor/Container_Images/stats1.png');
             }
 
             .score-grid{
@@ -157,19 +157,19 @@
         </h1>
 
         <button class="button-color js-rock-button">
-            <img src='/RPS_kpop_themes/Rock.jpg' class="img-style">
+            <img src='/Rock-Paper-Scissor/RPS_kpop_themes/Rock.jpg' class="img-style">
         </button>
 
         <button class="button-color js-paper-button">
-            <img src='/RPS_kpop_themes/Paper.jpg' class='img-style'>
+            <img src='/Rock-Paper-Scissor/RPS_kpop_themes/Paper.jpg' class='img-style'>
         </button>
 
         <button class="button-color js-scissor-button">
-            <img src='/RPS_kpop_themes/Scissor.jpg' class='img-style'>
+            <img src='/Rock-Paper-Scissor/RPS_kpop_themes/Scissor.jpg' class='img-style'>
         </button>
         
         <p class="js-display-result font-you">
-            You<img src="/Avatars/Avatar1.png" class="img-style"></p>
+            You<img src="/Rock-Paper-Scissor/Avatars/Avatar1.png" class="img-style"></p>
         <p class="js-result win-lose-result"></p>
         
         <br><br>
@@ -269,7 +269,7 @@
                     avatarTracker=0
                 }
                 avatarTracker ++
-                document.querySelector('.js-display-result').innerHTML=`Choose your Avatar <img src='/Avatars/Avatar${avatarTracker}.png' class='img-style'></button> `
+                document.querySelector('.js-display-result').innerHTML=`Choose your Avatar <img src='/Rock-Paper-Scissor/Avatars/Avatar${avatarTracker}.png' class='img-style'></button> `
             })
 
             document.querySelector('.js-changebg-button').addEventListener('click', ()=>{
@@ -306,7 +306,7 @@
 
             function showImagesOnPElement(machinePlay, playerPick, result){
                 console.log('Displaying Images...')
-                document.querySelector(".js-display-result").innerHTML = `<img src='/Avatars/Avatar${avatarTracker}.png' class='you-img'><img src='/RPS_kpop_themes/${playerPick}.jpg' class='you-pick-img'>       <img src='/RPS_kpop_themes/${machinePlay}.jpg' class='comp-pick-img'><img src='/computer.png' class='comp-img'>`
+                document.querySelector(".js-display-result").innerHTML = `<img src='/Rock-Paper-Scissor/Avatars/Avatar${avatarTracker}.png' class='you-img'><img src='/Rock-Paper-Scissor/RPS_kpop_themes/${playerPick}.jpg' class='you-pick-img'>       <img src='/Rock-Paper-Scissor/RPS_kpop_themes/${machinePlay}.jpg' class='comp-pick-img'><img src='/Rock-Paper-Scissor/computer.png' class='comp-img'>`
 
                 let displayResult = ''
 
@@ -425,4 +425,5 @@
     </body>
 
 </html>
+
 
