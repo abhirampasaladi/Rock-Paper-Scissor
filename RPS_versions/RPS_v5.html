@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            RockPaperScissor
+        </title>
+
+        <style>
+            .button-color{
+            background-color: burlywood
+                    }
+        </style>
+
+    </head>
+    <body>
+        <h1>
+            Rock - Paper - Scissor Game
+        </h1>
+
+        <button class="button-color" onclick="
+            gameResult('rock')
+            if(document.querySelector('.js-show-results-button').innerHTML === 'Hide Results'){
+                showResultsOnPageElement()
+            }
+            ">
+            Rock
+        </button>
+        <button class="button-color" onclick="
+            gameResult('paper')
+            if(document.querySelector('.js-show-results-button').innerHTML === 'Hide Results'){
+                showResultsOnPageElement()
+            }
+            ">
+            Paper
+        </button>
+        <button class="button-color" onclick="
+            gameResult('scissor')
+            if(document.querySelector('.js-show-results-button').innerHTML === 'Hide Results'){
+                showResultsOnPageElement()
+            }
+            ">
+            Scissor
+        </button>
+        
+        <p class="js-display-result"></p>
+        
+        <br><br>
+        <button onclick="
+            if (showHideControl === 0){
+                showResultsOnPageElement()
+                document.querySelector('.js-show-results-button').innerText = 'Hide Results'
+                showHideControl = 1
+            }
+            else{
+                document.querySelector('.js-show-results-button').innerText = 'Show Results'
+                showHideControl = 0
+                document.querySelector('.js-show-results').innerHTML = ''
+            }
+            " class="js-show-results-button">
+            Show Results
+        </button>
+        <button onclick="
+                resetResult()
+                document.querySelector('.js-display-result').innerHTML = ''
+            ">
+            Reset Results
+        </button>
+        <br>
+        <p class="js-show-results"></p>
+
+
+        <script>
+            let pastResults = JSON.parse(localStorage.getItem('pastResults')) || {
+                Wins: 0,
+                Loses: 0,
+                Draws: 0
+            }
+
+            let showHideControl = 0
+
+
+            function showResultOnPageElement(machinePlay, playerPick, result){
+                console.log('Inside DOM edit')
+                document.querySelector(".js-display-result").innerHTML = `Computer Picks: ${machinePlay}, You Pick: ${playerPick}, Result: ${result}`
+            }
+
+            function showResultsOnPageElement(){
+                console.log('Inside Show results DOM edit')
+                document.querySelector(".js-show-results").innerHTML = `Wins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`
+            }
+
+            function showResults(){
+                alert(`Wins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`)
+            }
+
+            function resetResult(){
+                localStorage.removeItem('pastResults')
+                pastResults = {
+                    Wins: 0,
+                    Loses: 0,
+                    Draws: 0
+                }
+
+                document.querySelector('.js-show-results-button').innerText = 'Hide Results'
+                showHideControl = 1
+                document.querySelector('.js-show-results').innerHTML = `Wins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`
+                // alert(`Wins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`)
+            }
+
+            function gameResult(playerPick){
+
+                machinePlay = computerPick()
+                let result = ''
+                if (playerPick === 'rock'){
+                    if(machinePlay === 'rock'){
+                        result = 'Draw'
+                    }
+                    else if(machinePlay === 'paper'){
+                        result = 'Lose'
+                    }
+                    else{
+                        result = 'Win'
+                    }
+                }
+                else if(playerPick === 'paper'){
+                    if(machinePlay === 'rock'){
+                        result = 'Win'
+                    }
+                    else if(machinePlay === 'paper'){
+                        result = 'Draw'
+                    }
+                    else{
+                        result = 'Lose'
+                    }
+                }
+                else{
+                    if(machinePlay === 'rock'){
+                        result = 'Lose'
+                    }
+                    else if(machinePlay === 'paper'){
+                        result = 'Win'
+                    }
+                    else{
+                        result = 'Draw'
+                    }
+                }
+                
+                if(result==='Win')
+                    pastResults.Wins = pastResults.Wins+1
+                else if(result==='Lose')
+                    pastResults.Loses = pastResults.Loses+1
+                else
+                    pastResults.Draws = pastResults.Draws+1
+
+                localStorage.setItem('pastResults',JSON.stringify(pastResults))
+
+                console.log(`Computer Picks: ${machinePlay}\nYou Pick: ${playerPick}\nResult: ${result}\n\nWins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`)
+
+                showResultOnPageElement(machinePlay, playerPick, result)
+
+                /* alert(`Computer Picks: ${machinePlay}\nYou Pick: ${playerPick}\nResult: ${result}\n\nWins: ${pastResults.Wins}, Loses: ${pastResults.Loses}, Draws: ${pastResults.Draws}`) */
+            }
+
+            function computerPick(){
+            const pick = ['rock','paper','scissor']
+            let machinePlay = pick[Math.floor(Math.random() * pick.length)]
+            console.log(`Computer Plays: ${machinePlay}`)
+            return machinePlay
+            }
+        </script>
+    </body>
+</html>
